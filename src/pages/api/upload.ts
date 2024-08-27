@@ -83,16 +83,24 @@ function processData(data: string): string {
       }
     }
   }
+  const deviceNames = records[6].slice(columnStartIndex);
 
   const sumRow: string[] = new Array(numColumns).fill('');
-  sumRow[0] = 'Sum';
-  for (let j = columnStartIndex; j < numColumns; j++) {
+  sumRow[0] = 'Sum';  // Assuming the first column is for labels
+  for (let j = columnStartIndex; j < sums.length; j++) {
     sumRow[j] = sums[j].toString();
   }
 
-  records.push(sumRow);
+  const outputRecords: string[][] = [];
+  outputRecords.push(['', '', '', '', '', '', '', '', 'Start Date', records[8][0]]);
+  outputRecords.push(['', '', '', '', '', '', '', '', 'End Date', records[293][0]]);
+  outputRecords.push([], []);
+  // Custom Header (adjust as needed)
+  outputRecords.push(['Device Name', ...records[6].slice(columnStartIndex)]);
+  // Append the sum row at the end
+  outputRecords.push(sumRow);
 
-  const output = stringify(records);
-  return output;
+  // Convert to CSV
+  return stringify(outputRecords);
 }
 

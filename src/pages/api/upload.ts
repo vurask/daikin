@@ -91,17 +91,16 @@ function processData(data: string): string {
   const deviceNames = records[6].slice(columnStartIndex);
 
   const outputRecords: string[][] = [];
+  outputRecords.push(['Start Date', records[8][0]]);
+  outputRecords.push(['End Date', records[293][0]]);
   outputRecords.push(['A/C Unit No.', 'Device Name', 'Sum']);
 
   // Append device names, sums, and their index
   for (let j = 0; j < deviceNames.length; j++) {
-    outputRecords.push([(j + 1).toString(), deviceNames[j], sums[j + columnStartIndex].toString()]);
+    if (sums[j + columnStartIndex] != 0) {
+      outputRecords.push([(j + 1).toString(), deviceNames[j], sums[j + columnStartIndex].toString()]);
+    }
   }
-
-  // Add start and end dates at the end
-  outputRecords.push([]);
-  outputRecords.push(['Start Date', records[8][0]]);
-  outputRecords.push(['End Date', records[293][0]]);
 
   // Convert to CSV
   return stringify(outputRecords);

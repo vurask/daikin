@@ -1,5 +1,13 @@
 import { useState } from 'react';
-
+import {
+  Box,
+  Button,
+  Container,
+  Heading,
+  Input,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [outputLink, setOutputLink] = useState<string | null>(null);
@@ -51,24 +59,56 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Upload and Process CSV File</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="file" accept=".csv,text/csv" onChange={handleFileChange} />
-        <button type="submit" disabled={uploading}>
-          {uploading ? 'Uploading...' : 'Upload'}
-        </button>
-      </form>
+      <Container mt={10}>
+      <Box p={8} borderWidth="1px" borderRadius="lg">
+        <Heading as="h1" size="lg" mb={6}>
+          Upload and Process CSV File
+        </Heading>
+        <Box as="form" onSubmit={handleSubmit}>
+          <Input
+            type="file"
+            accept=".csv,text/csv"
+            onChange={handleFileChange}
+            mb={4}
+          />
+          <Button type="submit" colorScheme="teal" isLoading={uploading} disabled={uploading} width="full">
+            {uploading ? 'Uploading...' : 'Upload'}
+          </Button>
+        </Box>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && (
+          <Text color="red.500" mt={4}>
+            {error}
+          </Text>
+        )}
 
-      {outputLink && (
-        <div style={{ marginTop: '1rem' }}>
-          <a href={outputLink} download>
-            Download Processed File
-          </a>
-        </div>
-      )}
-    </div>
+        {outputLink && (
+          <Box mt={4}>
+            <Link href={outputLink} download color="teal.500">
+              Download Processed File
+            </Link>
+          </Box>
+        )}
+      </Box>
+    </Container>
   );
+    // <div style={{ padding: '2rem' }}>
+    //   <h1>Upload and Process CSV File</h1>
+    //   <form onSubmit={handleSubmit}>
+    //     <input type="file" accept=".csv,text/csv" onChange={handleFileChange} />
+    //     <button type="submit" disabled={uploading}>
+    //       {uploading ? 'Uploading...' : 'Upload'}
+    //     </button>
+    //   </form>
+
+    //   {error && <p style={{ color: 'red' }}>{error}</p>}
+
+    //   {outputLink && (
+    //     <div style={{ marginTop: '1rem' }}>
+    //       <a href={outputLink} download>
+    //         Download Processed File
+    //       </a>
+    //     </div>
+    //   )}
+    // </div>
 }
